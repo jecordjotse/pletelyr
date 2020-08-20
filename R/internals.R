@@ -23,16 +23,16 @@ predict_next_word <- function(str ,quadgram, trigram, bigram, unigram){
     gram <- "."
     if(length(str)>=3){
         pred <- tail(str,3)
-        res <- (quadgram %>% dplyr::filter(ngram.1==pred[1],ngram.2==pred[2],ngram.3==pred[3]))[,c(4,6)]
+        res <- (quadgram %>% dplyr::filter(ngram.1==pred[1],ngram.2==pred[2],ngram.3==pred[3]))[,c(4,5)]
         gram <- "quadgram"
         if(nrow(res)==0){
-            res <- (trigram %>% dplyr::filter(ngram.1==pred[2],ngram.2==pred[3]))[,c(3,5)]
+            res <- (trigram %>% dplyr::filter(ngram.1==pred[2],ngram.2==pred[3]))[,c(3,4)]
             gram <- "trigram"
             if(nrow(res)==0){
-                res <- (bigram %>% dplyr::filter(ngram.1==pred[3]))[,c(2,4)]
+                res <- (bigram %>% dplyr::filter(ngram.1==pred[3]))[,c(2,3)]
                 gram <- "bigram"
                 if(nrow(res)==0){
-                    res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,3)]
+                    res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,2)]
                     gram <- "unigram"
                 }
             }
@@ -45,13 +45,13 @@ predict_next_word <- function(str ,quadgram, trigram, bigram, unigram){
 
     if(length(str)>=2&gram!='trigram'){
         pred <- tail(str,2)
-        res <- (trigram %>% dplyr::filter(ngram.1==pred[1],ngram.2==pred[2]))[,c(3,5)]
+        res <- (trigram %>% dplyr::filter(ngram.1==pred[1],ngram.2==pred[2]))[,c(3,4)]
         gram <- "tigram"
         if(nrow(res)==0){
-            res <- (bigram %>% dplyr::filter(ngram.1==pred[2]))[,c(2,4)]
+            res <- (bigram %>% dplyr::filter(ngram.1==pred[2]))[,c(2,3)]
             gram <- "bigram"
             if(nrow(res)==0){
-                res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,3)]
+                res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,2)]
                 gram <- "unigram"
             }
         }
@@ -70,10 +70,10 @@ predict_next_word <- function(str ,quadgram, trigram, bigram, unigram){
 
     if(length(str)>=1&gram!='bigram'){
         pred <- tail(str,1)
-        res <- (bigram %>% dplyr::filter(ngram.1==pred[1]))[,c(2,4)]
+        res <- (bigram %>% dplyr::filter(ngram.1==pred[1]))[,c(2,3)]
         gram <- "bigram"
         if(nrow(res)==0){
-            res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,3)]
+            res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,2)]
             gram <- "unigram"
         }
         #print(paste("tried bigram and used", gram))
@@ -90,7 +90,7 @@ predict_next_word <- function(str ,quadgram, trigram, bigram, unigram){
     }
 
     if(gram!='unigram'){
-        res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,3)]
+        res <- (unigram %>% dplyr::arrange(desc(prob)))[1000,c(1,2)]
         #print("tried and used unigram")
         res <- res %>% dplyr::mutate(prob = log(as.numeric(0.4*prob)))
         colnames(res) <- c("ngram","prob")
