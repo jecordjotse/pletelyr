@@ -111,7 +111,7 @@ getWords <- function(str, wordTable){
     if(str==''){
         str='.'
     }
-    words <- wordTable[grep(paste0('^',tolower(str)), wordTable$ngram)[1:3],]
+    words <- wordTable[grep(paste0('^',tolower(str)), wordTable$ngram)[1:10],]
     return(words)
 }
 
