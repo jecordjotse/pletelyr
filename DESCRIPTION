@@ -1,0 +1,22 @@
+Package: pletelyr
+Title: Web based Auto Completer
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jerome",
+           family = "Corjotse",
+           role = c("aut", "cre"),
+           email = "jeromecordjotse@gamil.com")
+Description: A package of functions to use to build the app that runs a word predictor or autocompletor app. 
+            In this package, the next word is predicted based on two conditions, whether to continue a word 
+            you started typeing  or predict a new word based on previous words.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+Imports: 
+    magrittr,
+    dplyr,
+    stringr
